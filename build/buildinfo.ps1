@@ -1,3 +1,4 @@
+#iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/jsorling/miscscripts/main/build/buildinfo.ps1'))
 if (-not (Test-Path env:BUILD_BUILDNUMBER)) { $env:BUILD_BUILDNUMBER = '0' }
 $dpart = ((Get-Date).Year - 2020).ToString() + ((Get-Date).DayOfYear).ToString("000")
 
