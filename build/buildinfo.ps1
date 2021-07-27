@@ -30,6 +30,13 @@ foreach ($f in Get-ChildItem -Path ".\" -Recurse -Include *.csproj) {
             }
 
             $proj.Save($f)
+
+            $dir = Split-Path -Path $f
+            foreach ($b in Get-ChildItem -Path $dir -Recurse -Include BuildInfo.cs,BuildInfo.cshtml) {
+                Write-Host $b
+                ((Get-Content -Path $b -Raw) -replace 'vv.vv.vv.vv', $newver) | Set-Content -Path $b -NoNewline
+                ((Get-Content -Path $b -Raw) -replace 'dddd.dd.dd', (Get-Date -Format "yyyy-MM-dd").Trim()) | Set-Content -Path $b -NoNewline
+            }
         }
     }
 }
