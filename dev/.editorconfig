@@ -125,7 +125,7 @@ csharp_using_directive_placement = outside_namespace:warning
 # New line preferences
 csharp_style_allow_blank_line_after_colon_in_constructor_initializer_experimental = false:warning
 csharp_style_allow_blank_lines_between_consecutive_braces_experimental = false:warning
-csharp_style_allow_embedded_statements_on_same_line_experimental = true:warning
+csharp_style_allow_embedded_statements_on_same_line_experimental = true:suggestion
 
 #### C# Formatting Rules ####
 
@@ -178,45 +178,53 @@ csharp_preserve_single_line_statements = false
 
 # Naming rules
 
-dotnet_naming_rule.interface_should_be_begins_with_i.severity = suggestion
+dotnet_naming_rule.interface_should_be_begins_with_i.severity = warning
 dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
 dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
 
-dotnet_naming_rule.types_should_be_pascal_case.severity = suggestion
+dotnet_naming_rule.types_should_be_pascal_case.severity = warning
 dotnet_naming_rule.types_should_be_pascal_case.symbols = types
 dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
 
-dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = suggestion
+dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = warning
 dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
 dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
 
-dotnet_naming_rule.private_or_internal_static_field_should_be_start_with_underscore.severity = suggestion
+dotnet_naming_rule.private_or_internal_static_field_should_be_start_with_underscore.severity = warning
 dotnet_naming_rule.private_or_internal_static_field_should_be_start_with_underscore.symbols = private_or_internal_static_field
 dotnet_naming_rule.private_or_internal_static_field_should_be_start_with_underscore.style = start_with_underscore
 
-dotnet_naming_rule.private_or_internal_field_should_be_start_with_underscore.severity = suggestion
+dotnet_naming_rule.private_or_internal_field_should_be_start_with_underscore.severity = warning
 dotnet_naming_rule.private_or_internal_field_should_be_start_with_underscore.symbols = private_or_internal_field
 dotnet_naming_rule.private_or_internal_field_should_be_start_with_underscore.style = start_with_underscore
 
-dotnet_naming_rule.public_static_readonly_fields_should_be_all_upper.severity = suggestion
-dotnet_naming_rule.public_static_readonly_fields_should_be_all_upper.symbols = public_static_readonly_fields
-dotnet_naming_rule.public_static_readonly_fields_should_be_all_upper.style = all_upper
+dotnet_naming_rule.public_static_readonly_fields_should_be_pascal_case.severity = warning
+dotnet_naming_rule.public_static_readonly_fields_should_be_pascal_case.symbols = public_static_readonly_fields
+dotnet_naming_rule.public_static_readonly_fields_should_be_pascal_case.style = pascal_case
 
-dotnet_naming_rule.local_var_should_be_all_lower.severity = suggestion
+dotnet_naming_rule.local_var_should_be_all_lower.severity = warning
 dotnet_naming_rule.local_var_should_be_all_lower.symbols = local_var
 dotnet_naming_rule.local_var_should_be_all_lower.style = all_lower
 
-dotnet_naming_rule.local_function_should_be_all_lower.severity = suggestion
+dotnet_naming_rule.local_function_should_be_all_lower.severity = warning
 dotnet_naming_rule.local_function_should_be_all_lower.symbols = local_function
 dotnet_naming_rule.local_function_should_be_all_lower.style = all_lower
 
-dotnet_naming_rule.parameters_should_be_camel_case.severity = suggestion
+dotnet_naming_rule.parameters_should_be_camel_case.severity = warning
 dotnet_naming_rule.parameters_should_be_camel_case.symbols = parameters
 dotnet_naming_rule.parameters_should_be_camel_case.style = camel_case
 
-dotnet_naming_rule.public_const_field_should_be_all_upper.severity = suggestion
+dotnet_naming_rule.public_const_field_should_be_all_upper.severity = warning
 dotnet_naming_rule.public_const_field_should_be_all_upper.symbols = public_const_field
 dotnet_naming_rule.public_const_field_should_be_all_upper.style = all_upper
+
+dotnet_naming_rule.type_parameters_should_be_pascal_case.severity = warning
+dotnet_naming_rule.type_parameters_should_be_pascal_case.symbols = type_parameters
+dotnet_naming_rule.type_parameters_should_be_pascal_case.style = pascal_case
+
+dotnet_naming_rule.async_methods_should_be_async_suffix.severity = warning
+dotnet_naming_rule.async_methods_should_be_async_suffix.symbols = async_methods
+dotnet_naming_rule.async_methods_should_be_async_suffix.style = async_suffix
 
 # Symbol specifications
 
@@ -252,13 +260,21 @@ dotnet_naming_symbols.local_function.applicable_kinds = local_function
 dotnet_naming_symbols.local_function.applicable_accessibilities = 
 dotnet_naming_symbols.local_function.required_modifiers = 
 
-dotnet_naming_symbols.parameters.applicable_kinds = parameter, type_parameter
-dotnet_naming_symbols.parameters.applicable_accessibilities = *
+dotnet_naming_symbols.parameters.applicable_kinds = parameter
+dotnet_naming_symbols.parameters.applicable_accessibilities = local
 dotnet_naming_symbols.parameters.required_modifiers = 
 
 dotnet_naming_symbols.public_const_field.applicable_kinds = field
 dotnet_naming_symbols.public_const_field.applicable_accessibilities = public
 dotnet_naming_symbols.public_const_field.required_modifiers = const
+
+dotnet_naming_symbols.type_parameters.applicable_kinds = type_parameter
+dotnet_naming_symbols.type_parameters.applicable_accessibilities = *
+dotnet_naming_symbols.type_parameters.required_modifiers = 
+
+dotnet_naming_symbols.async_methods.applicable_kinds = method
+dotnet_naming_symbols.async_methods.applicable_accessibilities = *
+dotnet_naming_symbols.async_methods.required_modifiers = async
 
 # Naming styles
 
@@ -291,3 +307,8 @@ dotnet_naming_style.camel_case.required_prefix =
 dotnet_naming_style.camel_case.required_suffix = 
 dotnet_naming_style.camel_case.word_separator = 
 dotnet_naming_style.camel_case.capitalization = camel_case
+
+dotnet_naming_style.async_suffix.required_prefix = 
+dotnet_naming_style.async_suffix.required_suffix = Async
+dotnet_naming_style.async_suffix.word_separator = 
+dotnet_naming_style.async_suffix.capitalization = pascal_case
