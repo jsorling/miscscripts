@@ -1,9 +1,9 @@
 select c.Name
-	, u.CardLabel
-	, cast('' as nvarchar(10)) Namn
-	, cast('' as nvarchar(10)) Kod
+	, u.CardLabel Nyckelmärkning
+	, u.Name Namn
+	, u.Code Kod
 	, u.Card Kort
-	, cast('' as nvarchar(10)) Fritext1
+	, u.f0 Fritext1
 	, 'Behörighet' Behörighet
 	, cast('' as nvarchar(10)) Starttid
 	, cast('' as nvarchar(10)) Stopptid
