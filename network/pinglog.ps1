@@ -1,5 +1,9 @@
-﻿$target = "192.168.1.150"
+﻿$target = "192.168.1.1"
 $errorfile = "C:\pingerror.txt"
+$sleepsec = 15
+$timestamp = (Get-Date).ToString("yyMMdd HH:mm:ss")
+
+Write-Output "$timestamp Starting pinglog target $target." | Out-File -FilePath $errorfile -Append
 
 while($true){
     $timestamp = (Get-Date).ToString("yyMMdd HH:mm:ss")
@@ -13,5 +17,5 @@ while($true){
         Write-Output "$timestamp Pinging target $target failed." | Out-File -FilePath $errorfile -Append
     }
     
-    sleep 15
+    sleep $sleepsec
 }
