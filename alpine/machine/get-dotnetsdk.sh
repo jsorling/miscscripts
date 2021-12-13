@@ -17,7 +17,7 @@ apk add --no-cache \
 
 #Fetch and extract latest .Net sdk
 #https://github.com/dotnet/arcade/issues/5757#issue-653403623
-wget https://aka.ms/dotnet/5.0/dotnet-sdk-linux-musl-x64.tar.gz
+wget https://aka.ms/dotnet/6.0/dotnet-sdk-linux-musl-x64.tar.gz
 	  
 tar xvzf dotnet-sdk-linux-musl-x64.tar.gz -C /opt/dotnet
 rm dotnet-sdk-linux-musl-x64.tar.gz

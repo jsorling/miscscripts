@@ -17,7 +17,7 @@ apk add --no-cache \
 
 #Fetch and extract latest aspnetcore
 #https://github.com/dotnet/arcade/issues/5757#issue-653403623
-wget https://aka.ms/dotnet/5.0/aspnetcore-runtime-linux-musl-x64.tar.gz
+wget https://aka.ms/dotnet/6.0/aspnetcore-runtime-linux-musl-x64.tar.gz
 	  
 tar xvzf aspnetcore-runtime-linux-musl-x64.tar.gz -C /opt/dotnet
 rm aspnetcore-runtime-linux-musl-x64.tar.gz
