@@ -40,7 +40,8 @@ values (1, 0, 0, 'Ingång', 'Används ej')
 	, (1001, 0, 1000, 'Dörr', 'Används')
 	, (1003, 0, 1000,'Bokningsgrupp', 'Bokning')
 
-select s.Name System
+select d.Name Domän
+	, s.Name System
 	, c.Name Central
 	, b.Name Kort
 	, b.Description KortTyp
@@ -48,8 +49,15 @@ select s.Name System
 	, r.Name Resurs
 	, coalesce(t.typetext, '???') ResursTyp
 	, coalesce(t.functext, '???') ResursFunktion
+	, (select count(*) from ResourceInTimezone ri where ri.ResourceID = r.Id) IAntalTidzoner
+	, (select count(*) from ResourceInBookingObject rb where rb.Resource_Id = r.Id) IAntalBokningsObjekt
 	, r.*
-from System s
+	, d.Id DomainId
+	, s.Id SystemId
+	, b.Id BoardId
+	, r.Id ResourceId
+from Domain d
+left join System s on s.Domain_Id = d.Id
 left join Control c on c.SystemId = s.Id
 left join Board b on b.ControlId = c.Id
 left join Resource r on r.BoardId = b.Id
