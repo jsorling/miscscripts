@@ -20,7 +20,7 @@ if($sqlservice -eq $null)
     Write-Host "Downloading $sqlsetup"
     Invoke-WebRequest $SQLURL -OutFile $installpath\$sqlsetup
     Write-Host "Unpacking $sqlsetup to $installpath\sqlinstall"
-    Start-Process -Filepath $installpath\$sqlsetup /Q /x:$installpath\sqlinstall -Wait
+    Start-Process -Filepath $installpath\$sqlsetup ["/Q", "/x:$installpath\sqlinstall"] -Wait
 
     Write-Host "Creating $installpath\sqlinstall\sql.ini"
     $ini = @"
@@ -49,7 +49,7 @@ SAPWD = "$sqlsapwd"
     $ini | Out-File $installpath\sqlinstall\sql.ini -Force
 
     Write-Host "Setting up $installpath\sqlinstall\SETUP.EXE"
-    Start-Process -Filepath $installpath\sqlinstall\SETUP.EXE /ConfigurationFile=$installpath\sqlinstall\sql.ini -Wait
+    Start-Process -Filepath $installpath\sqlinstall\SETUP.EXE ["/ConfigurationFile=$installpath\sqlinstall\sql.ini"] -Wait
 
     Write-Host "Open firewall  SQL port 1433"
     New-NetFirewallRule -DisplayName "SQLServer1433" -Direction Inbound -LocalPort 1433 -Protocol TCP -Action Allow
@@ -63,7 +63,7 @@ If(!(Test-Path $dotnetsdkversionfile))
     $dotnet = "dotnetsdk.exe"
     $url = "https://aka.ms/dotnet/6.0/dotnet-sdk-win-x64.exe"
     Invoke-WebRequest -Uri $url -OutFile $installpath\$dotnet
-    Start-Process -Filepath $installpath\$dotnet /passive -Wait
+    Start-Process -Filepath $installpath\$dotnet ["/passive"] -Wait
     & dotnet --version >> $dotnetsdkversionfile
 }
 ## end dotnet core sdk
