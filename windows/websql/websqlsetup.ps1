@@ -1,3 +1,4 @@
+#iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/jsorling/miscscripts/main/windows/websql/websqlsetup.ps1'))
 Add-Type -AssemblyName 'System.Web'
 
 $installpath = "C:\websql"
@@ -19,7 +20,7 @@ if($sqlservice -eq $null)
     Write-Host "Downloading $sqlsetup"
     Invoke-WebRequest $SQLURL -OutFile $installpath\$sqlsetup
     Write-Host "Unpacking $sqlsetup to $installpath\sqlinstall"
-    & $installpath\$sqlsetup /Q /x:$installpath\sqlinstall | Out-Null
+    Start-Process -Filepath $installpath\$sqlsetup /Q /x:$installpath\sqlinstall -Wait
 
     Write-Host "Creating $installpath\sqlinstall\sql.ini"
     $ini = @"
@@ -48,7 +49,7 @@ SAPWD = "$sqlsapwd"
     $ini | Out-File $installpath\sqlinstall\sql.ini -Force
 
     Write-Host "Setting up $installpath\sqlinstall\SETUP.EXE"
-    & $installpath\sqlinstall\SETUP.EXE /ConfigurationFile=$installpath\sqlinstall\sql.ini -Wait
+    Start-Process -Filepath $installpath\sqlinstall\SETUP.EXE /ConfigurationFile=$installpath\sqlinstall\sql.ini -Wait
 
     Write-Host "Open firewall  SQL port 1433"
     New-NetFirewallRule -DisplayName "SQLServer1433" -Direction Inbound -LocalPort 1433 -Protocol TCP -Action Allow
