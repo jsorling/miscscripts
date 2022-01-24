@@ -23,6 +23,12 @@ if($sqlservice -eq $null)
     Start-Process -Filepath $installpath\$sqlsetup "/Q", "/x:$installpath\sqlinstall" -Wait
 
     Write-Host "Creating $installpath\sqlinstall\sql.ini"
+
+    If(!(Test-Path "$installpath\sql\$sqlinstancename"))
+    {
+      New-Item -ItemType Directory -Force -Path "$installpath\sql\$sqlinstancename"
+    }
+
     $ini = @"
 [OPTIONS]
 ACTION = "INSTALL"
@@ -30,8 +36,6 @@ UPDATEENABLED = "True"
 USEMICROSOFTUPDATE = "True"
 FEATURES = SQLENGINE,TOOLS
 INSTANCEDIR = "$installpath\sql\$sqlinstancename"
-INSTALLSHAREDDIR = "$installpath\sql"
-SQLBACKUPDIR = "$installpath\sqlbackup\"
 SQLCOLLATION = "SQL_Latin1_General_CP1_CS_AS"
 AGTSVCSTARTUPTYPE = "Manual"
 SQLSVCSTARTUPTYPE = "Automatic"
