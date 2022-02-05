@@ -71,3 +71,11 @@ If(!(Test-Path $dotnetsdkversionfile))
     & dotnet --version >> $dotnetsdkversionfile
 }
 ## end dotnet core sdk
+
+## start open ports 80, 443
+$rules = Get-NetFirewallRule
+if (-not $rules.DisplayName.Contains("websql HTTP(S) 80, 443"))
+{
+    New-NetFirewallRule -DisplayName "websql HTTP(S) 80, 443" -Direction Inbound -LocalPort 80,443 -Protocol TCP -Action Allow
+}
+## end open ports 80, 443
