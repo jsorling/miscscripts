@@ -1,8 +1,8 @@
-#iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/jsorling/miscscripts/main/windows/websql/websqlsetup.ps1'));Setup()
+#iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/jsorling/miscscripts/main/windows/websql/websqlsetup.ps1')) ;Setup
 Add-Type -AssemblyName 'System.Web'
 
 function Setup(){
-    WriteHost "Setup"
+    Write-Host "Setup"
 }
 
 $installpath = "C:\websql"
