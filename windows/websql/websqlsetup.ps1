@@ -1,10 +1,15 @@
-#iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/jsorling/miscscripts/main/windows/websql/websqlsetup.ps1'))
+#iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/jsorling/miscscripts/main/windows/websql/websqlsetup.ps1'));Setup()
 Add-Type -AssemblyName 'System.Web'
+
+function Setup(){
+    WriteHost "Setup"
+}
 
 $installpath = "C:\websql"
 If(!(Test-Path $installpath))
 {
-      New-Item -ItemType Directory -Force -Path $installpath
+    Write-Host "Creating installation directory $installpath"
+    New-Item -ItemType Directory -Force -Path $installpath > $null
 }
 
 ##start sqlexpress
@@ -74,9 +79,18 @@ If(!(Test-Path $dotnetsdkversionfile))
 
 ## start open ports 80, 443
 $httpfirewall = "websql HTTP(S) 80, 443"
-if (-not Get-NetFirewallRule -DisplayName $httpfirewall | Out-Null)
+$hr = Get-NetFirewallRule -DisplayName $httpfirewall 2> $null
+if (-not $hr)
 {
     Write-Host "Creating firewall rule $httpfirewall"
-    New-NetFirewallRule -DisplayName $httpfirewall -Direction Inbound -LocalPort 80,443 -Protocol TCP -Action Allow
+    New-NetFirewallRule -DisplayName $httpfirewall -Direction Inbound -LocalPort 80,443 -Protocol TCP -Action Allow > $null
 }
 ## end open ports 80, 443
+
+## start certs
+If(!(Test-Path $installpath\certs))
+{
+    Write-Host "Creating certs directory $installpath\certs"
+    New-Item -ItemType Directory -Force -Path $installpath\certs > $null
+}
+## end certs
