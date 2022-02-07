@@ -106,5 +106,18 @@ function Set-Firewall {
 
 function Set-HttpSys {
     Write-Host "Set-HttpSys..."
-    Set-ItemProperty  -path "HKLM:\\SYSTEM\CurrentControlSet\Services\HTTP\Parameters" -name "DisableServerHeader" -value "2"  -PropertyType "Dword"
+    
+    $registryPath = "HKLM:\\SYSTEM\CurrentControlSet\Services\HTTP\Parameters"
+    $Name = "DisableServerHeader"
+    $value = "2"
+
+    If(!(Test-Path $registryPath))
+    {
+        New-Item -Path $registryPath -Force | Out-Null
+        New-ItemProperty -Path $registryPath -Name $name -Value $value -PropertyType DWORD -Force | Out-Null
+    }
+    Else 
+    {
+        New-ItemProperty -Path $registryPath -Name $name -Value $value -PropertyType DWORD -Force | Out-Null
+    }
 } ## Set-HttpSys
