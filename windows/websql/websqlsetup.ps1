@@ -1,4 +1,5 @@
 #iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/jsorling/miscscripts/main/windows/websql/websqlsetup.ps1')) ;Install-Websql
+#. .\websqlsetup.ps1; Set-Dirs
 Add-Type -AssemblyName 'System.Web'
 $installpath = "C:\websql"
 
@@ -8,6 +9,7 @@ function Install-Websql {
     Install-SQL
     Install-DotNet
     Set-Firewall
+    Set-HttpSys
 } ## Install-Websql
 
 function Set-Dirs {
@@ -101,3 +103,8 @@ function Set-Firewall {
         New-NetFirewallRule -DisplayName $httpfirewall -Direction Inbound -LocalPort 80,443 -Protocol TCP -Action Allow > $null
     }    
 } ## Set-Firewall
+
+function Set-HttpSys {
+    Write-Host "Set-HttpSys..."
+    Set-ItemProperty  -path "HKLM:\\SYSTEM\CurrentControlSet\Services\HTTP\Parameters" -name "DisableServerHeader" -value "2"  -PropertyType "Dword"
+} ## Set-HttpSys
