@@ -1,4 +1,4 @@
-#iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/jsorling/miscscripts/main/windows/websql/websqlsetup.ps1')) ;Install-Websql
+#iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/jsorling/miscscripts/main/windows/websql/websqlsetup.ps1')) ;Install-Websql name.server.com
 #. .\websqlsetup.ps1; Set-Dirs
 Add-Type -AssemblyName 'System.Web'
 $installpath = "C:\websql"
@@ -9,17 +9,17 @@ function Install-Websql {
     Install-SQL
     Install-DotNet
     Set-Firewall
-    Set-HttpSys
+    Set-HttpSys    
 } ## Install-Websql
 
 function Set-Dirs {
     Write-Host "Set-Dirs..."
-    If(!(Test-Path $installpath))
+    if(!(Test-Path $installpath))
     {
         Write-Host "Creating installation directory $installpath"
         New-Item -ItemType Directory -Force -Path $installpath > $null
     }
-    If(!(Test-Path $installpath\certs))
+    if(!(Test-Path $installpath\certs))
     {
         Write-Host "Creating certs directory $installpath\certs"
         New-Item -ItemType Directory -Force -Path $installpath\certs > $null
@@ -44,7 +44,7 @@ function Install-SQL {
 
         Write-Host "Creating $installpath\sqlinstall\sql.ini"
 
-        If(!(Test-Path "$installpath\sql\$sqlinstancename"))
+        if(!(Test-Path "$installpath\sql\$sqlinstancename"))
         {
           New-Item -ItemType Directory -Force -Path "$installpath\sql\$sqlinstancename" > $null
         }
@@ -83,7 +83,7 @@ SAPWD = "$sqlsapwd"
 function Install-DotNet {
     Write-Host "Install-DotNet..."
     $dotnetsdkversionfile = "$installpath\dotnetsdkversion.txt"
-    If(!(Test-Path $dotnetsdkversionfile))
+    if(!(Test-Path $dotnetsdkversionfile))
     {
         $dotnet = "dotnetsdk.exe"
         $url = "https://aka.ms/dotnet/6.0/dotnet-sdk-win-x64.exe"
@@ -111,13 +111,40 @@ function Set-HttpSys {
     $Name = "DisableServerHeader"
     $value = "2"
 
-    If(!(Test-Path $registryPath))
+    if(!(Test-Path $registryPath))
     {
         New-Item -Path $registryPath -Force | Out-Null
         New-ItemProperty -Path $registryPath -Name $name -Value $value -PropertyType DWORD -Force | Out-Null
     }
-    Else 
+    else 
     {
         New-ItemProperty -Path $registryPath -Name $name -Value $value -PropertyType DWORD -Force | Out-Null
     }
 } ## Set-HttpSys
+
+function Request-ComputerCert {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)]
+        [string]$ComputerDNSName
+    )
+
+    & $installpath\certs\Sorling.AcmeV2HCP.exe $ComputerDNSName
+    Rename-Item -Path $installpath\certs\$ComputerDNSName.pfx -NewName machine.pfx
+    $tp = (Get-PfxCertificate -FilePath $installpath\certs\machine.pfx).Thumbprint
+    Import-PfxCertificate -FilePath $installpath\certs\machine.pfx  -CertStoreLocation Cert:\LocalMachine\My
+    $appguid = (New-Guid).Guid
+    netsh http add sslcert ipport=0.0.0.0:443 certhash=$tp appid=$appguid
+    wmic /namespace:\\root\cimv2\TerminalServices PATH Win32_TSGeneralSetting Set SSLCertificateSHA1Hash=$tp
+    Write-Host "TermService needs to be restarted, net stop/start TermService"
+} ## Set-MachineCert
+
+function Set-LetsEncryptAccInfo {
+    $accinfofile = "$installpath\certs\AcmeV2HCPAccInfo.json"
+    if((Test-Path $accinfofile))
+    {
+        Remove-Item $accinfofile -Force | Out-Null
+    }
+    & $installpath\certs\Sorling.AcmeV2HCP.exe
+    & notepad $accinfofile
+} ## Set-LetsEncryptAccInfo
