@@ -133,8 +133,7 @@ function Request-ComputerCert {
     Rename-Item -Path $installpath\certs\$ComputerDNSName.pfx -NewName machine.pfx
     $tp = (Get-PfxCertificate -FilePath $installpath\certs\machine.pfx).Thumbprint
     Import-PfxCertificate -FilePath $installpath\certs\machine.pfx  -CertStoreLocation Cert:\LocalMachine\My
-    $appguid = (New-Guid).Guid
-    netsh http add sslcert ipport=0.0.0.0:443 certhash=$tp appid=$appguid
+    netsh http add sslcert ipport=0.0.0.0:443 certhash=$tp
     wmic /namespace:\\root\cimv2\TerminalServices PATH Win32_TSGeneralSetting Set SSLCertificateSHA1Hash=$tp
     Write-Host "TermService needs to be restarted, net stop/start TermService"
 } ## Set-MachineCert
