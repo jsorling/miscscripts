@@ -24,6 +24,11 @@ function Set-Dirs {
         Write-Host "Creating certs directory $installpath\certs"
         New-Item -ItemType Directory -Force -Path $installpath\certs > $null
     }
+    if(!(Test-Path $installpath\websites))
+    {
+        Write-Host "Creating websites directory $installpath\websites"
+        New-Item -ItemType Directory -Force -Path $installpath\websites > $null
+    }
 } ## Set-Dirs
 
 function Install-SQL {
