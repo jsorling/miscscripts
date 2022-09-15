@@ -25,5 +25,5 @@ function Get-Password {
     }
     return -join $pwa
 }
-cls
+Clear-Host
 Get-Password
