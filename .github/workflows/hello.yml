@@ -2,11 +2,11 @@ name: Call helloworld.ps1
 on:
   workflow_dispatch:
 env:
-  PS_SOURCE_URL: "https://raw.githubusercontent.com/jsorling/miscscripts/main/github/actions/"
+  PS_SOURCE_URL: "https://raw.githubusercontent.com/jsorling/miscscripts/main/github/actions"
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - name: CallHello
-      run: '& iex ((New-Object System.Net.WebClient).DownloadString("https://raw.githubusercontent.com/jsorling/miscscripts/main/github/actions/helloworld.ps1"))'
+      run: '& iex ((New-Object System.Net.WebClient).DownloadString("$env:PS_SOURCE_URL/helloworld.ps1"))'
       shell: pwsh
