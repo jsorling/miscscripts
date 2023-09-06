@@ -1,0 +1,10 @@
+name: Call helloworld.ps1
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: CallHello
+      run: '& iex ((New-Object System.Net.WebClient).DownloadString("https://raw.githubusercontent.com/jsorling/miscscripts/main/github/actions/helloworld.ps1"))'
+      shell: pwsh
