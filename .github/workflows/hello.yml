@@ -1,6 +1,8 @@
 name: Call helloworld.ps1
 on:
   workflow_dispatch:
+env:
+  PS_SOURCE_URL: "https://raw.githubusercontent.com/jsorling/miscscripts/main/github/actions/"
 jobs:
   build:
     runs-on: ubuntu-latest
