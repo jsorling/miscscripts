@@ -2,4 +2,5 @@
 Write-Host "Hello world"
 #https://docs.github.com/en/actions/learn-github-actions/variables
 Write-Host $env:GITHUB_RUN_NUMBER
+Write-Host $env:PS_SOURCE_URL
 Write-Host "Good bye"
