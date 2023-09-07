@@ -1,6 +1,7 @@
 name: Call helloworld.ps1
 on:
   workflow_dispatch:
+    #https://docs.github.com/en/actions/learn-github-actions/contexts#inputs-context
     inputs:
       in_one:
         required: true
