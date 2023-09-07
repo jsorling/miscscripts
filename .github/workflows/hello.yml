@@ -1,12 +1,13 @@
 name: Call helloworld.ps1
 on:
   workflow_dispatch:
-  inputs:
+    inputs:
       in_one:
         required: true
         type: string
 env:
   PS_SOURCE_URL: "https://raw.githubusercontent.com/jsorling/miscscripts/main/github/actions"
+  IN_ONE: ${{ inputs.in_one }}
 jobs:
   build:
     runs-on: ubuntu-latest
