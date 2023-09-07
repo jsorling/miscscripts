@@ -1,4 +1,5 @@
 name: Call helloworld.ps1
+#https://github.com/jsorling/miscscripts/actions/workflows/hello.yml/badge.svg
 on:
   workflow_dispatch:
     #https://docs.github.com/en/actions/learn-github-actions/contexts#inputs-context
