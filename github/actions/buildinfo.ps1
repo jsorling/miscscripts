@@ -8,7 +8,7 @@ foreach ($f in Get-ChildItem -Path ".\" -Recurse -Include *.csproj) {
         $version = -split $projver.Replace('.', ' ')
         if($version.Count -gt 1) {
             Write-Host $f
-            $newver = "$($version[0]).$($version[1]).$($version[2]).$env:BUILD_BUILDNUMBER"
+            $newver = "$($version[0]).$($version[1]).$($version[2]).$env:GITHUB_RUN_NUMBER"
             Write-Host "$projver -> $newver"
 
             $proj.SelectSingleNode("//Project/PropertyGroup/Version").InnerText = $newver
@@ -17,7 +17,7 @@ foreach ($f in Get-ChildItem -Path ".\" -Recurse -Include *.csproj) {
                 $null = $proj.SelectSingleNode("//Project/PropertyGroup/Version").ParentNode.AppendChild($proj.CreateElement("FileVersion"))
             }
             if($proj.SelectSingleNode("//Project/PropertyGroup/AssemblyVersion").InnerText.Length -lt 1) {
-                $null = $proj.SelectSingleNode("//Project/PropertyGroup/Version").ParentNode.AppendChild($proj.CreateElement("AssemblyVersion"))              
+                $null = $proj.SelectSingleNode("//Project/PropertyGroup/Version").ParentNode.AppendChild($proj.CreateElement("AssemblyVersion"))
             }
                        
             $proj.SelectSingleNode("//Project/PropertyGroup/FileVersion").InnerText = $newver
