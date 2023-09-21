@@ -5,6 +5,7 @@ on:
     #https://docs.github.com/en/actions/learn-github-actions/contexts#inputs-context
     inputs:
       in_one:
+        description: Input test to action
         required: true
         type: string
 env:
