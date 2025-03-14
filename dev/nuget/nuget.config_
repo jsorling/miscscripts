@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/jsorling/miscscripts/main/dev/nuget/nuget.config')) -->
+<!-- iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/jsorling/miscscripts/main/dev/nuget/GetNugetconfig.ps1')) -->
 <configuration>
     <packageSources>
         <clear />
         <add key="nuget.org" value="https://api.nuget.org/v3/index.json" />
-        <add key="sorling.public" value="https://pkgs.dev.azure.com/sorling/PublicFeed/_packaging/PublicFeed/nuget/v3/index.json" />
+        <add key="sorling_public" value="https://pkgs.dev.azure.com/sorling/PublicFeed/_packaging/PublicFeed/nuget/v3/index.json" />
     </packageSources>
 
     <packageSourceMapping>
         <packageSource key="nuget.org">
             <package pattern="*" />
         </packageSource>
-        <packageSource key="sorling.public">
+        <packageSource key="sorling_public">
             <package pattern="Sorling.*" />
             <package pattern="NuGet.Common" />
         </packageSource>
