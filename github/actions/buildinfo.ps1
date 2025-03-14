@@ -19,7 +19,7 @@ foreach ($f in Get-ChildItem -Path ".\" -Recurse -Include *.csproj) {
             if($proj.SelectSingleNode("//Project/PropertyGroup/AssemblyVersion").InnerText.Length -lt 1) {
                 $null = $proj.SelectSingleNode("//Project/PropertyGroup/Version").ParentNode.AppendChild($proj.CreateElement("AssemblyVersion"))
             }
-                       
+
             $proj.SelectSingleNode("//Project/PropertyGroup/FileVersion").InnerText = $newver
             $proj.SelectSingleNode("//Project/PropertyGroup/AssemblyVersion").InnerText = $newver
 
